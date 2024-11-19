@@ -1,7 +1,9 @@
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import MainButton from '../Components/button';
+import Title from "../Components/title";
+
 
 export default function SignupUI({ onSignup, onChangeText, formData }) {
   return (
@@ -22,7 +24,7 @@ export default function SignupUI({ onSignup, onChangeText, formData }) {
         style={styles.background}
       />
 
-      <Text style={styles.title}>PetSpace</Text>
+      <Title style={styles.title}/>
 
       <View style={styles.formContainer}>
         <TextInput
@@ -58,16 +60,11 @@ const styles = StyleSheet.create({
   background: {
     ...StyleSheet.absoluteFillObject,
   },
-  title: {
-    fontSize: 60,
-    fontWeight: "bold",
-    marginBottom: 60,
-    textAlign: "center",
-    color: "white",
-  },
+
   formContainer: {
     alignItems: "center",
     padding: 20,
+    marginTop: 20,
   },
   input: {
     width: "80%",
