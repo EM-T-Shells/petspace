@@ -1,69 +1,94 @@
-import { StyleSheet, Text, TextInput, View, useWindowDimensions, Button } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-export default function SignupUI({onSignup, onChangeText, formData}) {
-  const { height } = useWindowDimensions();
-
+export default function SignupUI({ onSignup, onChangeText, formData }) {
   return (
     <View style={styles.container}>
       <LinearGradient
-        // Background Linear Gradient
         colors={[
-          // '#FF8C00', // Vibrant orange
-          // '#FFA500', // Deep orange
-          '#FFD580', // Soft orange
-          '#FFE5B4', // Light pastel orange
-          '#FFFFFF', // Subtle white highlight
+          "#de6d00", // Vibrant orange
+          "#cb5a1b", // Soft orange
+          "#b64925", // Light pastel orange
+          "#9e3b2a",
+          "#85302b",
+          "#6c2629",
+          "#521e24",
+          "#38171d",
         ]}
         start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }} 
-        style={[styles.background, {height}]}
+        end={{ x: 1, y: 1 }}
+        style={styles.background}
       />
+
+      <Text style={styles.title}>PetSpace</Text>
+
       <View style={styles.formContainer}>
         <TextInput
           style={styles.input}
-          placeholder='Username'
+          placeholder="Username"
           value={FormData.username}
         />
         <TextInput
           style={styles.input}
-          placeholder='Password'
+          placeholder="Password"
           value={FormData.password}
           secureTextEntry
         />
         <TextInput
           style={styles.input}
-          placeholder='Email'
+          placeholder="Email"
           value={FormData.email}
         />
+      
+        </View>
 
-        <Button title="Sign Up" onPress={onSignup} />
-      </View>
+        <TouchableOpacity style={styles.button} onPress={onSignup}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Root container fills the entire screen
-    justifyContent: 'center',
+    height: "100%",
+    justifyContent: "center",
   },
   background: {
-    ...StyleSheet.absoluteFillObject, // Ensures the background covers the screen
+    ...StyleSheet.absoluteFillObject,
+  },
+  title: {
+    fontSize: 40,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+    color: "white",
   },
   formContainer: {
-    alignItems: 'center',
-    top: 400,
+    alignItems: "center",
     padding: 20,
   },
   input: {
-    height: 45,
-    width: '80%',
+    width: "80%",
     padding: 10,
     marginVertical: 10,
-    borderColor: 'orange',
+    borderColor: "orange",
     borderWidth: 1.5,
     borderRadius: 10,
+    backgroundColor: "white",
   },
+  TouchableOpacity: {
+    justifyContent: "center",
+  },
+  button: {
+    backgroundColor: "#de6d00",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 20,
+    marginHorizontal: 60,
+  },
+  buttonText: {
+    color: "white",
+  }
 });
-
