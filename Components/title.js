@@ -19,7 +19,7 @@ export default function App() {
 const styles = StyleSheet.create({
   title: {
     textAlign: "center",
-    fontSize: 64,
+    fontSize: 74,
     fontFamily: "CustomFont",
     color: "#ffffff",
   },
