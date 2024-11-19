@@ -6,14 +6,14 @@ export default function SignupUI({ onSignup, onChangeText, formData }) {
     <View style={styles.container}>
       <LinearGradient
         colors={[
-          "#de6d00", // Vibrant orange
-          "#cb5a1b", // Soft orange
-          "#b64925", // Light pastel orange
-          "#9e3b2a",
-          "#85302b",
-          "#6c2629",
-          "#521e24",
-          "#38171d",
+          "#f0961c", 
+          "#f2a339",
+          "#f4b055",
+          "#f6bd71",
+          "#f7cb8e",
+          "#f9d8aa",
+          "#fbe5c6",
+          "#fdf2e3",
         ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -45,6 +45,8 @@ export default function SignupUI({ onSignup, onChangeText, formData }) {
         <TouchableOpacity style={styles.button} onPress={onSignup}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
+
+        
     </View>
   );
 }
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    backgroundColor: "#de6d00",
+    backgroundColor: "#f0961c",
     padding: 10,
     borderRadius: 10,
     alignItems: "center",
