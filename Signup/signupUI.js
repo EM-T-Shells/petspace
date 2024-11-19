@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import MainButton from "../Components/button";
 import Title from "../Components/title";
 
-export default function SignupUI({ onSignup, onChangeText, formData }) {
+export default function SignupUI({ onSignup }) {
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -29,24 +29,19 @@ export default function SignupUI({ onSignup, onChangeText, formData }) {
         <TextInput
           style={styles.input}
           placeholder="First Name"
-          value={FormData.username}
         />
         <TextInput
           style={styles.input}
           placeholder="Last Name"
-          value={FormData.username}
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Pet Name"
-          value={FormData.username}
         />
         <TextInput
           style={styles.input}
           placeholder="Email"
-          value={FormData.email}
         />
+        <TextInput
+        style={styles.input}
+        placeholder="Password"
+      />
       </View>
 
       <MainButton style={styles.button} title="Sign Up" onPress={onSignup} />
