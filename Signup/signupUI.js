@@ -1,6 +1,8 @@
 import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
+import MainButton from '../Components/button';
+
 export default function SignupUI({ onSignup, onChangeText, formData }) {
   return (
     <View style={styles.container}>
@@ -42,11 +44,8 @@ export default function SignupUI({ onSignup, onChangeText, formData }) {
       
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={onSignup}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
+        <MainButton title="Sign Up" onPress={onSignup} />
 
-        
     </View>
   );
 }
@@ -60,9 +59,9 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   title: {
-    fontSize: 40,
+    fontSize: 60,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 60,
     textAlign: "center",
     color: "white",
   },
@@ -79,18 +78,4 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
   },
-  TouchableOpacity: {
-    justifyContent: "center",
-  },
-  button: {
-    backgroundColor: "#f0961c",
-    padding: 10,
-    borderRadius: 10,
-    alignItems: "center",
-    marginTop: 20,
-    marginHorizontal: 60,
-  },
-  buttonText: {
-    color: "white",
-  }
 });

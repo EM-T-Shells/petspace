@@ -16,6 +16,7 @@
     "petspace-app": "file:",
     "react": "18.3.1",
     "react-native": "0.76.2",
+    "react-native-svg": "^15.9.0",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
