@@ -8,7 +8,13 @@ export default function Signup() {
     <View style={styles.container}>
       <LinearGradient
         // Background Linear Gradient
-        colors={['#FA9600','#fea232', '#ffad4f', '#ffb969', '#ffd09b', '#ffdcb4', '#ffe7cd', '#fff3e6', '#ffffff']}
+        colors={[
+          '#FF8C00', // Vibrant orange
+          '#FFA500', // Deep orange
+          '#FFD580', // Soft orange
+          '#FFE5B4', // Light pastel orange
+          '#FFFFFF', // Subtle white highlight
+        ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }} 
         style={[styles.background, {height}]}
