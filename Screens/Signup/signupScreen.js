@@ -1,12 +1,18 @@
 import { StyleSheet, Text, TextInput, View, useWindowDimensions } from "react-native";
+import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import MainButton from "../Components/button";
-import Title from "../Components/title";
+import MainButton from "../../Components/button";
+import Title from "../../Components/title";
 
 export default function SignupUI({ onSignup }) {
   const { width, height } = useWindowDimensions();
-
   const isLandscape = width > height; // Check if the orientation is landscape
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
 
   // Dynamic styles for responsiveness
   const dynamicStyles = {
@@ -52,13 +58,37 @@ export default function SignupUI({ onSignup }) {
       <Title style={dynamicStyles.title} />
 
       <View style={dynamicStyles.formContainer}>
-        <TextInput style={dynamicStyles.input} placeholder="First Name" />
-        <TextInput style={dynamicStyles.input} placeholder="Last Name" />
-        <TextInput style={dynamicStyles.input} placeholder="Email" />
-        <TextInput style={dynamicStyles.input} placeholder="Password" />
+        <TextInput 
+          style={dynamicStyles.input} 
+          placeholder="First Name" 
+          value={firstName}
+          onChangeText={setFirstName}
+        />
+        <TextInput 
+          style={dynamicStyles.input} 
+          placeholder="Last Name" 
+          value={lastName}
+          onChangeText={setLastName}
+        />
+        <TextInput 
+          style={dynamicStyles.input} 
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput 
+          style={dynamicStyles.input} 
+          placeholder="Password" 
+          value={password}
+          onChangeText={setPassword}
+        />
       </View>
 
-      <MainButton style={dynamicStyles.button} title="Sign Up" onPress={onSignup} />
+      <MainButton 
+        style={dynamicStyles.button} 
+        title="Sign Up" 
+        onPress={() => onSignup({ firstName, lastName, email, password })}      
+      />
     </View>
   );
 }
