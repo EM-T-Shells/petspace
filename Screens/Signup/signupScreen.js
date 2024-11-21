@@ -1,20 +1,33 @@
-import { StyleSheet, Text, TextInput, View, useWindowDimensions } from "react-native";
+import { StyleSheet, Text, TextInput, View, useWindowDimensions, Alert } from "react-native";
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+
 import MainButton from "../../Components/button";
 import Title from "../../Components/title";
 
+import { validateSignup } from "./signupLogic";
+
 export default function SignupUI({ onSignup }) {
   const { width, height } = useWindowDimensions();
-  const isLandscape = width > height; // Check if the orientation is landscape
+  const isLandscape = width > height; 
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleSignup = () => {
+    const result = validateSignup(
+      { firstName, lastName, email, password }
+    );
 
-  // Dynamic styles for responsiveness
+    if (!result.success) {
+      Alert.alert("Signup Error", result.message);
+    } else {
+      Alert.alert("Signup Successful", result.message);
+    }
+  };
+
   const dynamicStyles = {
     formContainer: {
       flexDirection: "column", // Retain vertical stacking
@@ -87,7 +100,7 @@ export default function SignupUI({ onSignup }) {
       <MainButton 
         style={dynamicStyles.button} 
         title="Sign Up" 
-        onPress={() => onSignup({ firstName, lastName, email, password })}      
+        onPress={handleSignup}      
       />
     </View>
   );
