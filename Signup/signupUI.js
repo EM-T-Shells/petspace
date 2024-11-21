@@ -1,10 +1,36 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View, useWindowDimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-
 import MainButton from "../Components/button";
 import Title from "../Components/title";
 
 export default function SignupUI({ onSignup }) {
+  const { width, height } = useWindowDimensions();
+
+  const isLandscape = width > height; // Check if the orientation is landscape
+
+  // Dynamic styles for responsiveness
+  const dynamicStyles = {
+    formContainer: {
+      flexDirection: "column", // Retain vertical stacking
+      alignItems: "center",
+      padding: width * 0.04,
+      marginTop: height * 0.05,
+      marginBottom: height * 0.03,
+    },
+    input: {
+      width: isLandscape ? "50%" : "90%", // Reduce width in landscape mode
+      padding: isLandscape ? height * 0.03 : height * 0.02,
+      marginVertical: height * 0.01,
+      borderColor: "orange",
+      borderWidth: 1.5,
+      borderRadius: 10,
+      backgroundColor: "white",
+    },
+    button: {
+      marginHorizontal: isLandscape ? width * 0.3 : width * 0.2,
+    },
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -23,28 +49,16 @@ export default function SignupUI({ onSignup }) {
         style={styles.background}
       />
 
-      <Title style={styles.title} />
+      <Title style={dynamicStyles.title} />
 
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="First Name"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Last Name"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-        />
-        <TextInput
-        style={styles.input}
-        placeholder="Password"
-      />
+      <View style={dynamicStyles.formContainer}>
+        <TextInput style={dynamicStyles.input} placeholder="First Name" />
+        <TextInput style={dynamicStyles.input} placeholder="Last Name" />
+        <TextInput style={dynamicStyles.input} placeholder="Email" />
+        <TextInput style={dynamicStyles.input} placeholder="Password" />
       </View>
 
-      <MainButton style={styles.button} title="Sign Up" onPress={onSignup} />
+      <MainButton style={dynamicStyles.button} title="Sign Up" onPress={onSignup} />
     </View>
   );
 }
@@ -56,24 +70,5 @@ const styles = StyleSheet.create({
   },
   background: {
     ...StyleSheet.absoluteFillObject,
-  },
-
-  formContainer: {
-    alignItems: "center",
-    padding: 20,
-    marginTop: 40,
-    marginBottom: 30,
-  },
-  input: {
-    width: "90%",
-    padding: 10,
-    marginVertical: 10,
-    borderColor: "orange",
-    borderWidth: 1.5,
-    borderRadius: 10,
-    backgroundColor: "white",
-  },
-  button: {
-    marginHorizontal: 40,
   },
 });
