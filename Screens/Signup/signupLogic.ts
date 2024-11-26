@@ -1,3 +1,5 @@
+import { supabase } from '../../utils/supabase'
+
 interface SignupInput {
   firstName: string;
   lastName: string;
