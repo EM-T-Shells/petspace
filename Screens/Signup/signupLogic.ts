@@ -1,4 +1,4 @@
-import { supabase } from '../../utils/supabase'
+import { supabase } from "../../utils/supabase"; // Adjust the import path to your Supabase client setup
 
 interface SignupInput {
   firstName: string;
@@ -7,61 +7,96 @@ interface SignupInput {
   password: string;
 }
 
-const existingUsers = [
-  { id: 1, email: "testuser@example.com" },
-  { id: 2, email: "johndoe@example.com" },
-];
+interface SignupResult {
+  success: boolean;
+  message: string;
+}
 
-export const validateSignup = ({
-  firstName,
-  lastName,
-  email,
-  password,
-}: SignupInput) => {
+/**
+ * Validates the user input and creates a new user in Supabase.
+ *
+ * @param input - User input containing firstName, lastName, email, and password.
+ * @returns A promise that resolves to a result object with success status and message.
+ */
+export const validateSignup = async (
+  input: SignupInput
+): Promise<SignupResult> => {
+  const { firstName, lastName, email, password } = input;
+
+  // Basic input validation
   if (!firstName || !lastName || !email || !password) {
+    return { success: false, message: "All fields are required." };
+  }
+
+  if (!validateEmail(email)) {
+    return { success: false, message: "Please enter a valid email address." };
+  }
+
+  if (password.length < 6) {
     return {
       success: false,
-      message: "All fields are required.",
+      message: "Password must be at least 6 characters long.",
     };
   }
 
-  const emailExists = existingUsers.some((user) => user.email === email);
-  if (emailExists) {
+  try {
+    // Sign up the user in Supabase authentication
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        },
+      },
+    });
+    
+    if (authError) {
+      return { success: false, message: authError.message };
+    }
+    // Ensure authData contains the user object
+    if (!authData.user) {
+      return { success: false, message: "Error: Auth user not created." };
+    }
+
+    console.log("Auth Data:", authData);
+    console.log("First Name:", firstName);
+    console.log("Last Name:", lastName);
+    console.log("Email:", email);
+
+    // Store additional user data in the "users" table
+    const { error: dbError } = await supabase.from("users").insert({
+      id: authData.user.id,
+      first_name: firstName,
+      last_name: lastName,
+      email,
+    });
+
+    if (dbError) {
+      return { success: false, message: dbError.message };
+    }
+
+    return {
+      success: true,
+      message: "Signup successful! Please check your email for confirmation.",
+    };
+  } catch (error) {
+    console.error("Signup error:", error);
     return {
       success: false,
-      message: "Email already exists.",
+      message: "An unexpected error occurred. Please try again later.",
     };
   }
+};
 
-  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  if (!validEmail) {
-    return {
-      success: false,
-      message: "Invalid email.",
-    };
-  }
-
-  const validPassword =
-    password.length >= 8 &&
-    password.match(/[A-Z]/) &&
-    password.match(/[a-z]/) &&
-    password.match(/[0-9]/) &&
-    password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/);
-  if (!validPassword) {
-    return {
-      success: false,
-      message: `
-        Password must be:
-        - at least 8 characters long
-        - contain at least one uppercase letter
-        - contain at least one lowercase letter
-        - contain at least one number
-        - contain at least one special character`,
-    };
-  }
-
-  return {
-    success: true,
-    message: "Signup successful.",
-  };
+/**
+ * Validates an email address.
+ *
+ * @param email - The email to validate.
+ * @returns True if the email is valid, false otherwise.
+ */
+const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 };
