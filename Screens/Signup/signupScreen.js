@@ -92,6 +92,7 @@ export default function SignupScreen({ onChangeText }) {
           placeholder="Password" 
           value={password}
           onChangeText={setPassword}
+          secureTextEntry
         />
       </View>
 
