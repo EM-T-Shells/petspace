@@ -1,5 +1,4 @@
-import { supabase } from "../../utils/supabase"; // Adjust the import path to your Supabase client setup
-
+import { supabase } from "../../utils/supabase"; 
 interface SignupInput {
   firstName: string;
   lastName: string;
@@ -12,12 +11,6 @@ interface SignupResult {
   message: string;
 }
 
-/**
- * Validates the user input and creates a new user in Supabase.
- *
- * @param input - User input containing firstName, lastName, email, and password.
- * @returns A promise that resolves to a result object with success status and message.
- */
 export const validateSignup = async (
   input: SignupInput
 ): Promise<SignupResult> => {
@@ -40,6 +33,23 @@ export const validateSignup = async (
   }
 
   try {
+
+    // Check if the email already exists in the database
+    const { data: existingUser, error: queryError } = await supabase
+      .from("users")
+      .select("email")
+      .eq("email", email)
+      .single();
+
+    if (queryError && queryError.code !== "PGRST116") {
+      // If the error isn't due to no matching rows (email not found), throw an error
+      return { success: false, message: queryError.message };
+    }
+
+    if (existingUser) {
+      return { success: false, message: "The email address already exists." };
+    }
+    
     // Sign up the user in Supabase authentication
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
@@ -90,12 +100,7 @@ export const validateSignup = async (
   }
 };
 
-/**
- * Validates an email address.
- *
- * @param email - The email to validate.
- * @returns True if the email is valid, false otherwise.
- */
+
 const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
