@@ -1,4 +1,12 @@
-import { StyleSheet, TextInput, View, useWindowDimensions, Alert } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  useWindowDimensions,
+  Alert,
+  KeyboardAvoidingView,
+  Platform
+} from "react-native";
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -9,7 +17,7 @@ import { validateSignup } from "./signupLogic";
 
 export default function SignupScreen({ onChangeText }) {
   const { width, height } = useWindowDimensions();
-  const isLandscape = width > height; 
+  const isLandscape = width > height;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -20,12 +28,17 @@ export default function SignupScreen({ onChangeText }) {
   const handleSignup = async () => {
     setLoading(true);
 
-    const result = await validateSignup({ firstName, lastName, email, password });
+    const result = await validateSignup({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
 
     Alert.alert(result.message);
     setLoading(false);
   };
-  
+
   const dynamicStyles = {
     formContainer: {
       flexDirection: "column", // Retain vertical stacking
@@ -49,59 +62,63 @@ export default function SignupScreen({ onChangeText }) {
   };
 
   return (
-    <View style={styles.container}>
-      <LinearGradient
-        colors={[
-          "#f0961c",
-          "#f2a339",
-          "#f4b055",
-          "#f6bd71",
-          "#f7cb8e",
-          "#f9d8aa",
-          "#fbe5c6",
-          "#fdf2e3",
-        ]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.background}
-      />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <View style={styles.container}>
+        <LinearGradient
+          colors={[
+            "#f0961c",
+            "#f2a339",
+            "#f4b055",
+            "#f6bd71",
+            "#f7cb8e",
+            "#f9d8aa",
+            "#fbe5c6",
+            "#fdf2e3",
+          ]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.background}
+        />
 
-      <Title style={dynamicStyles.title} />
+        <Title style={dynamicStyles.title} />
 
-      <View style={dynamicStyles.formContainer}>
-        <TextInput 
-          style={dynamicStyles.input} 
-          placeholder="First Name" 
-          value={firstName}
-          onChangeText={setFirstName}
-        />
-        <TextInput 
-          style={dynamicStyles.input} 
-          placeholder="Last Name" 
-          value={lastName}
-          onChangeText={setLastName}
-        />
-        <TextInput 
-          style={dynamicStyles.input} 
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput 
-          style={dynamicStyles.input} 
-          placeholder="Password" 
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
+        <View style={dynamicStyles.formContainer}>
+          <TextInput
+            style={dynamicStyles.input}
+            placeholder="First Name"
+            value={firstName}
+            onChangeText={setFirstName}
+          />
+          <TextInput
+            style={dynamicStyles.input}
+            placeholder="Last Name"
+            value={lastName}
+            onChangeText={setLastName}
+          />
+          <TextInput
+            style={dynamicStyles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            style={dynamicStyles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </View>
+
+        <MainButton
+          style={dynamicStyles.button}
+          title="Sign Up"
+          onPress={handleSignup}
         />
       </View>
-
-      <MainButton 
-        style={dynamicStyles.button} 
-        title="Sign Up" 
-        onPress={handleSignup}      
-      />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
